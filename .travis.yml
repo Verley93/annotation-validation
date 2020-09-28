@@ -16,30 +16,28 @@ cache:
 
 jobs:
   include:
-    # 1.1 Check Version
-    - stage: version
+    # 1.1 Run Assemble
+    - stage: assemble
       jdk: openjdk11
-      script: ./gradlew --version
+      script: ./gradlew assemble --no-daemon
 
     ## 1.2 Run Build
     - stage: build
       jdk: openjdk11
-      script: ./gradlew build --scan
+      script: ./gradlew build --no-daemon
 
     # 1.3 Run Tests
     - stage: test
       jdk: openjdk11
-      script: ./gradlew test
+      script: ./gradlew test --no-daemon
 
     # 1.4 Check Coverage
     - stage: coverage
       jdk: openjdk11
       script:
-        - ./gradlew check
-        - ./gradlew codeCoverageReport
-
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
+        - ./gradlew check --no-daemon
+        - ./gradlew codeCoverageReport --no-daemon
+        - bash <(curl -s https://codecov.io/bash)
 
 branches:
   only:
