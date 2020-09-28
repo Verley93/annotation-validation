@@ -22,7 +22,7 @@ public class ErrorController extends ResponseEntityExceptionHandler {
                 ErrorResponseModel.builder()
                         .errorMessage(ex.getMessage())
                         .timestamp(LocalDateTime.now())
-                        .details(request.getDescription(false))
+                        .path(request.getDescription(false))
                         .build(),
                 HttpStatus.INTERNAL_SERVER_ERROR
         );
@@ -35,7 +35,7 @@ public class ErrorController extends ResponseEntityExceptionHandler {
                 ErrorResponseModel.builder()
                         .errorMessage(ex.getMessage())
                         .timestamp(LocalDateTime.now())
-                        .details("invalidParameter=" + request.getParameter("name"))
+                        .path(request.getDescription(false))
                         .build(),
                 HttpStatus.NOT_FOUND
         );

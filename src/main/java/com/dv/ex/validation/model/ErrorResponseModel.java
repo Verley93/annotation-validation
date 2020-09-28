@@ -11,6 +11,6 @@ public class ErrorResponseModel {
 
     private final String errorMessage;
     private final LocalDateTime timestamp;
-    private final String details;
+    private final String path;
 
 }
