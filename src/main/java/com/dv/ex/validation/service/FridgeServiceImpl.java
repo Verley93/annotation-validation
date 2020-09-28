@@ -27,7 +27,7 @@ public class FridgeServiceImpl implements FridgeService {
     @Override
     public FoodResponseModel addFoodToFridge(FoodRequestModel request) {
         log.info("addFoodToFridge: request=[{}]", request);
-        FoodEntity entity = foodEntityBuilder.fromRequest(request);
+        FoodEntity entity = foodEntityBuilder.forTheFridge(request);
         entity = fridgeRepository.save(entity);
         return foodResponseBuilder.fromEntity(entity);
     }

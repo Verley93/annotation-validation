@@ -27,7 +27,7 @@ public class PantryServiceImpl implements PantryService {
     @Override
     public FoodResponseModel addFoodToPantry(FoodRequestModel request) {
         log.info("addFoodToPantry: request=[{}]", request);
-        FoodEntity entity = foodEntityBuilder.fromRequest(request);
+        FoodEntity entity = foodEntityBuilder.forThePantry(request);
         entity = pantryRepository.save(entity);
         return foodResponseBuilder.fromEntity(entity);
     }
