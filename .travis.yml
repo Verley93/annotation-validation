@@ -11,12 +11,12 @@ install:
 jobs:
   include:
     # 1.1 Check Version
-    - stage: test
+    - stage: version
       jdk: openjdk11
       script: ./gradlew --version
 
     ## 1.2 Run Build
-    - stage: test
+    - stage: build
       jdk: openjdk11
       script: ./gradlew build --scan
 
@@ -26,7 +26,7 @@ jobs:
       script: ./gradlew test
 
     # 1.4 Check Coverage
-    - stage: test
+    - stage: coverage
       jdk: openjdk11
       script:
         - ./gradlew check
