@@ -23,19 +23,6 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class ErrorController extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(Exception.class)
-    public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
-        log.error("handleAllExceptions: error=[{}]", ex.getMessage());
-        return new ResponseEntity<>(
-                ErrorResponseModel.builder()
-                        .errorMessage(ex.getMessage())
-                        .timestamp(LocalDateTime.now())
-                        .path(request.getDescription(false))
-                        .build(),
-                HttpStatus.INTERNAL_SERVER_ERROR
-        );
-    }
-
     @ExceptionHandler(EntityNotFoundException.class)
     public final ResponseEntity<Object> handleEntityNotFoundException(
             EntityNotFoundException ex, WebRequest request) {
