@@ -2,8 +2,8 @@ language: java
 
 jdk: openjdk11
 
-before_install:
-  - git update-index --chmod=+x gradlew
+before_script:
+  - chmod +x gradlew
 
 install:
   - ./gradlew assemble
