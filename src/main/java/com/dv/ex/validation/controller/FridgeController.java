@@ -39,7 +39,9 @@ public class FridgeController {
     }
 
     @GetMapping("/food/{category}")
-    public ResponseEntity<List<FoodResponseModel>> getAllFoodFromFridgeByCategoryV1(@FoodCategory @PathVariable String category) {
+    public ResponseEntity<List<FoodResponseModel>> getAllFoodFromFridgeByCategoryV1(
+            @FoodCategory(allowed = {"dairy", "vegetables", "beer"}) @PathVariable String category) {
+
         log.info("getAllFoodFromFridgeByCategoryV1: category=[{}]", category);
         return ResponseEntity.ok(fridgeService.getAllFoodFromFridgeByCategory(category));
     }

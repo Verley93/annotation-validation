@@ -3,6 +3,7 @@ package com.dv.ex.validation.controller;
 import com.dv.ex.validation.model.FoodResponseModel;
 import com.dv.ex.validation.model.PantryRequestModel;
 import com.dv.ex.validation.service.PantryService;
+import com.dv.ex.validation.validator.FoodCategory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,13 @@ public class PantryController {
 
     private final PantryService pantryService;
 
-    @Validated
     @PostMapping("/food")
-    public ResponseEntity<FoodResponseModel> addFoodToPantryV1(@Valid @RequestBody PantryRequestModel request) {
+    public ResponseEntity<FoodResponseModel> addFoodToPantryV1(
+            @Valid @RequestBody PantryRequestModel request) {
+
         log.info("addFoodToPantryV1: request=[{}]", request);
-        return ResponseEntity.ok(pantryService.addFoodToPantry(request));
+        FoodResponseModel response = pantryService.addFoodToPantry(request);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/food")
@@ -36,7 +39,9 @@ public class PantryController {
     }
 
     @GetMapping("/food/{category}")
-    public ResponseEntity<List<FoodResponseModel>> getAllFoodFromPantryByCategoryV1(@PathVariable String category) {
+    public ResponseEntity<List<FoodResponseModel>> getAllFoodFromPantryByCategoryV1(
+            @FoodCategory(allowed = {"grains", "canned", "snacks"}) @PathVariable String category) {
+
         log.info("getAllFoodFromPantryByCategoryV1: category=[{}]", category);
         return ResponseEntity.ok(pantryService.getAllFoodFromPantryByCategory(category));
     }

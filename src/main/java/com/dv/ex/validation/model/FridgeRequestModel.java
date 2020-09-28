@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class FridgeRequestModel extends FoodRequestModel {
 
-    @FoodCategory(allowed = {"meats", "vegetables", "beer"})
+    @FoodCategory(allowed = {"dairy", "vegetables", "beer"})
     private String category;
 
 }

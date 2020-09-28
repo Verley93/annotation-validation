@@ -42,8 +42,8 @@ class ValidationDemoApplicationTests {
             @Test
             void testSuccess() throws Exception {
                 FridgeRequestModel fridgeRequest = new FridgeRequestModel();
-                fridgeRequest.setName("chicken");
-                fridgeRequest.setCategory("meats");
+                fridgeRequest.setName("milk");
+                fridgeRequest.setCategory("dairy");
                 fridgeRequest.setQuantity(3);
                 fridgeRequest.setRefrigerated(true);
 
@@ -57,8 +57,8 @@ class ValidationDemoApplicationTests {
             @Test
             void testNegativeQuantity() throws Exception {
                 FridgeRequestModel fridgeRequest = new FridgeRequestModel();
-                fridgeRequest.setName("chicken");
-                fridgeRequest.setCategory("meats");
+                fridgeRequest.setName("milk");
+                fridgeRequest.setCategory("dairy");
                 fridgeRequest.setQuantity(-3);
                 fridgeRequest.setRefrigerated(true);
 
@@ -74,8 +74,8 @@ class ValidationDemoApplicationTests {
             @Test
             void testHighQuantity() throws Exception {
                 FridgeRequestModel fridgeRequest = new FridgeRequestModel();
-                fridgeRequest.setName("chicken");
-                fridgeRequest.setCategory("meats");
+                fridgeRequest.setName("milk");
+                fridgeRequest.setCategory("dairy");
                 fridgeRequest.setQuantity(50);
                 fridgeRequest.setRefrigerated(true);
 
@@ -102,8 +102,65 @@ class ValidationDemoApplicationTests {
                         .content(objectMapper.writeValueAsString(fridgeRequest)))
                         .andExpect(jsonPath(
                                 "$.errorMessage")
-                                .value("Category must be one of the following: [meats, vegetables, beer]"))
+                                .value("Category must be one of the following: [dairy, vegetables, beer]"))
                         .andExpect(status().isBadRequest());
+            }
+
+        }
+
+        @Nested
+        class GetAllFoodFromFridgeV1 {
+
+            @Test
+            void testSuccess() throws Exception {
+                mockMvc.perform(MockMvcRequestBuilders
+                        .get(URI_FRIDGE)
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isOk());
+            }
+
+        }
+
+        @Nested
+        class GetAllFoodFromFridgeByCategoryV1 {
+
+            @Test
+            void testSuccess() throws Exception {
+                mockMvc.perform(MockMvcRequestBuilders
+                        .get(URI_FRIDGE + "/dairy")
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isOk());
+            }
+
+            @Test
+            void testInvalidCategory() throws Exception {
+                mockMvc.perform(MockMvcRequestBuilders
+                        .get(URI_FRIDGE + "/bad")
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isBadRequest());
+            }
+
+        }
+
+        @Nested
+        class ConsumeFoodFromFridgeByNameV1 {
+
+            @Test
+            void testSuccess() throws Exception {
+                mockMvc.perform(MockMvcRequestBuilders
+                        .put(URI_FRIDGE)
+                        .param("name", "milk")
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isOk());
+            }
+
+            @Test
+            void testNotFound() throws Exception {
+                mockMvc.perform(MockMvcRequestBuilders
+                        .put(URI_FRIDGE)
+                        .param("name", "badName")
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isNotFound());
             }
 
         }
@@ -180,6 +237,63 @@ class ValidationDemoApplicationTests {
                         .andExpect(jsonPath("$.errorMessage")
                                 .value("Category must be one of the following: [grains, canned, snacks]"))
                         .andExpect(status().isBadRequest());
+            }
+
+        }
+
+        @Nested
+        class GetAllFoodFromPantryV1 {
+
+            @Test
+            void testSuccess() throws Exception {
+                mockMvc.perform(MockMvcRequestBuilders
+                        .get(URI_PANTRY)
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isOk());
+            }
+
+        }
+
+        @Nested
+        class GetAllFoodFromPantryByCategoryV1 {
+
+            @Test
+            void testSuccess() throws Exception {
+                mockMvc.perform(MockMvcRequestBuilders
+                        .get(URI_PANTRY + "/snacks")
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isOk());
+            }
+
+            @Test
+            void testInvalidCategory() throws Exception {
+                mockMvc.perform(MockMvcRequestBuilders
+                        .get(URI_PANTRY + "/bad")
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isBadRequest());
+            }
+
+        }
+
+        @Nested
+        class ConsumeFoodFromPantryByNameV1 {
+
+            @Test
+            void testSuccess() throws Exception {
+                mockMvc.perform(MockMvcRequestBuilders
+                        .put(URI_PANTRY)
+                        .param("name", "cookies")
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isOk());
+            }
+
+            @Test
+            void testNotFound() throws Exception {
+                mockMvc.perform(MockMvcRequestBuilders
+                        .put(URI_PANTRY)
+                        .param("name", "badName")
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isNotFound());
             }
 
         }
