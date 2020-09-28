@@ -1,7 +1,7 @@
 package com.dv.ex.validation.service;
 
-import com.dv.ex.validation.model.FoodRequestModel;
 import com.dv.ex.validation.model.FoodResponseModel;
+import com.dv.ex.validation.model.FridgeRequestModel;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public interface FridgeService extends FoodService {
      * @param request Request to add food
      * @return A {@code FoodResponseModel} containing the details of the food added
      */
-    FoodResponseModel addFoodToFridge(FoodRequestModel request);
+    FoodResponseModel addFoodToFridge(FridgeRequestModel request);
 
     /**
      * Returns all food contained in the fridge

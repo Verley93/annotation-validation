@@ -1,17 +1,21 @@
 package com.dv.ex.validation.controller;
 
-import com.dv.ex.validation.model.FoodRequestModel;
 import com.dv.ex.validation.model.FoodResponseModel;
+import com.dv.ex.validation.model.FridgeRequestModel;
 import com.dv.ex.validation.service.FridgeService;
+import com.dv.ex.validation.validator.FoodCategory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
+@Validated
 @RestController
 @RequestMapping(path = "/api/v1/fridge")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
@@ -20,9 +24,12 @@ public class FridgeController {
     private final FridgeService fridgeService;
 
     @PostMapping("/food")
-    public ResponseEntity<FoodResponseModel> addFoodToFridgeV1(@RequestBody FoodRequestModel request) {
+    public ResponseEntity<FoodResponseModel> addFoodToFridgeV1(
+            @Valid @RequestBody FridgeRequestModel request) {
+
         log.info("addFoodToFridgeV1: request=[{}]", request);
-        return ResponseEntity.ok(fridgeService.addFoodToFridge(request));
+        FoodResponseModel response = fridgeService.addFoodToFridge(request);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/food")
@@ -32,7 +39,7 @@ public class FridgeController {
     }
 
     @GetMapping("/food/{category}")
-    public ResponseEntity<List<FoodResponseModel>> getAllFoodFromFridgeByCategoryV1(@PathVariable String category) {
+    public ResponseEntity<List<FoodResponseModel>> getAllFoodFromFridgeByCategoryV1(@FoodCategory @PathVariable String category) {
         log.info("getAllFoodFromFridgeByCategoryV1: category=[{}]", category);
         return ResponseEntity.ok(fridgeService.getAllFoodFromFridgeByCategory(category));
     }

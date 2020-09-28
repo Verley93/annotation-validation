@@ -2,8 +2,8 @@ package com.dv.ex.validation.service;
 
 import com.dv.ex.validation.entity.FoodEntity;
 import com.dv.ex.validation.error.EntityNotFoundException;
-import com.dv.ex.validation.model.FoodRequestModel;
 import com.dv.ex.validation.model.FoodResponseModel;
+import com.dv.ex.validation.model.FridgeRequestModel;
 import com.dv.ex.validation.repository.FridgeRepository;
 import com.dv.ex.validation.util.FoodEntityBuilder;
 import com.dv.ex.validation.util.FoodResponseBuilder;
@@ -25,7 +25,7 @@ public class FridgeServiceImpl implements FridgeService {
     private final FoodResponseBuilder foodResponseBuilder;
 
     @Override
-    public FoodResponseModel addFoodToFridge(FoodRequestModel request) {
+    public FoodResponseModel addFoodToFridge(FridgeRequestModel request) {
         log.info("addFoodToFridge: request=[{}]", request);
         FoodEntity entity = foodEntityBuilder.forTheFridge(request);
         entity = fridgeRepository.save(entity);
