@@ -1,8 +1,7 @@
 # Request Validation in Spring Boot Microservices
 
 [![Build Status](https://travis-ci.com/Verley93/annotation-validation.svg?branch=master)](https://travis-ci.com/Verley93/annotation-validation)
-[![Code Coverage](https://img.shields.io/codecov/c/github/pvorb/property-providers/develop.svg)](https://codecov.io/github/pvorb/property-providers?branch=develop)
-
+[![codecov](https://codecov.io/gh/Verley93/annotation-validation/branch/master/graph/badge.svg)](https://codecov.io/gh/Verley93/annotation-validation)
 ## Description
 
 This repository complements a tutorial written on Medium by Devlin Verley II.  Check it out [here](https://www.medium.com/some-article-link)!
