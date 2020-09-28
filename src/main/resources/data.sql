@@ -1,5 +1,5 @@
 INSERT INTO food (name, category, quantity, refrigerated) VALUES
-    ('cookies', 'snacks', 12, false),
+    ('cookies', 'snacks', 1, false),
     ('rice', 'grains', 2, false),
     ('blueberries', 'fruit', 2, false),
     ('muffin mix', 'dry', 19, false),
@@ -7,7 +7,7 @@ INSERT INTO food (name, category, quantity, refrigerated) VALUES
     ('cauliflower', 'vegetables', 3, true),
     ('spaghetti pasta', 'pasta', 6, false),
     ('red pepper', 'fruit', 9, true),
-    ('milk', 'dairy', 2, true),
+    ('milk', 'dairy', 1, true),
     ('fettuccine', 'pasta', 1, false),
     ('kiwi', 'fruit', 5, true),
     ('strawberries', 'fruit', 2, true),
