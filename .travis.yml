@@ -36,7 +36,7 @@ jobs:
       jdk: openjdk11
       script:
         - ./gradlew check --no-daemon
-        - ./gradlew codeCoverageReport --no-daemon
+        - ./gradlew jacocoTestReport --no-daemon
         - bash <(curl -s https://codecov.io/bash)
 
 branches:
