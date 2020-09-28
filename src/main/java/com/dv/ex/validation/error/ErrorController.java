@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -34,7 +37,8 @@ public class ErrorController extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public final ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException ex, WebRequest request) {
+    public final ResponseEntity<Object> handleEntityNotFoundException(
+            EntityNotFoundException ex, WebRequest request) {
         log.error("handleEntityNotFoundException: error=[{}]", ex.getMessage());
         return new ResponseEntity<>(
                 ErrorResponseModel.builder()
@@ -43,6 +47,28 @@ public class ErrorController extends ResponseEntityExceptionHandler {
                         .path(request.getDescription(false))
                         .build(),
                 HttpStatus.NOT_FOUND
+        );
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public final ResponseEntity<Object> handleConstraintViolationException(
+            ConstraintViolationException ex, WebRequest request) {
+
+        Set<ConstraintViolation<?>> constraintViolations = ex.getConstraintViolations();
+        List<Object> invalidValues = constraintViolations.stream()
+                .map(ConstraintViolation::getInvalidValue)
+                .collect(Collectors.toList());
+        List<String> errorMessages = constraintViolations.stream()
+                .map(ConstraintViolation::getMessage)
+                .collect(Collectors.toList());
+        log.error("handleConstraintViolationException: invalidValues={} errors={}", invalidValues, errorMessages);
+        return new ResponseEntity<>(
+                ErrorResponseModel.builder()
+                        .errorMessage(errorMessages.get(0))
+                        .timestamp(LocalDateTime.now())
+                        .path(request.getDescription(false))
+                        .build(),
+                HttpStatus.BAD_REQUEST
         );
     }
 
