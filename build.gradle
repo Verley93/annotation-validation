@@ -1,6 +1,7 @@
 plugins {
-	id 'org.springframework.boot' version '2.3.1.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'org.springframework.boot' version '2.3.3.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'jacoco'
 	id 'java'
 }
 
@@ -21,8 +22,12 @@ repositories {
 dependencies {
 	implementation (
 			'org.springframework.boot:spring-boot-starter-security',
-			'org.springframework.boot:spring-boot-starter-web'
+			'org.springframework.boot:spring-boot-starter-web',
+			'org.springframework.boot:spring-boot-starter-data-jpa',
+			'org.springframework.boot:spring-boot-starter-validation'
 	)
+
+	runtimeOnly 'com.h2database:h2'
 
 	compileOnly 'org.projectlombok:lombok'
 
@@ -33,9 +38,46 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
-	testImplementation 'org.springframework.security:spring-security-test'
 }
 
 test {
 	useJUnitPlatform()
+	finalizedBy jacocoTestReport
 }
+
+jacoco {
+	toolVersion = "0.8.5"
+	reportsDir = file("$buildDir/customJacocoReportDir")
+}
+
+jacocoTestReport {
+	dependsOn test
+	reports {
+		xml.enabled true
+		html.enabled false
+	}
+}
+
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			limit {
+				minimum = 0.5
+			}
+		}
+
+		rule {
+			enabled = false
+			element = 'CLASS'
+			includes = ['org.gradle.*']
+
+			limit {
+				counter = 'LINE'
+				value = 'TOTALCOUNT'
+				maximum = 0.3
+			}
+		}
+	}
+}
+
+check.dependsOn jacocoTestReport
