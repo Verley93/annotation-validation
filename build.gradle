@@ -1,6 +1,7 @@
 plugins {
 	id 'org.springframework.boot' version '2.3.3.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'jacoco'
 	id 'java'
 }
 
@@ -41,4 +42,42 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+	finalizedBy jacocoTestReport
 }
+
+jacoco {
+	toolVersion = "0.8.5"
+	reportsDir = file("$buildDir/customJacocoReportDir")
+}
+
+jacocoTestReport {
+	dependsOn test
+	reports {
+		xml.enabled true
+		html.enabled false
+	}
+}
+
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			limit {
+				minimum = 0.5
+			}
+		}
+
+		rule {
+			enabled = false
+			element = 'CLASS'
+			includes = ['org.gradle.*']
+
+			limit {
+				counter = 'LINE'
+				value = 'TOTALCOUNT'
+				maximum = 0.3
+			}
+		}
+	}
+}
+
+check.dependsOn jacocoTestReport
