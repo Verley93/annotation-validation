@@ -26,6 +26,12 @@ jobs:
         - ./gradlew jacocoTestReport --no-daemon
         - bash <(curl -s https://codecov.io/bash)
 
+deploy:
+  provider: surge
+  domain: dv.ex.annotation-validation.surge.sh
+  on:
+    branch: master
+
 branches:
   only:
     - dev
