@@ -20,7 +20,7 @@ jobs:
     - stage: build
       jdk: openjdk11
       script:
-        - ./gradlew version --no-daemon
+        - ./gradlew --version --no-daemon
         - ./gradlew build --no-daemon
         - ./gradlew check --no-daemon
         - ./gradlew jacocoTestReport --no-daemon
